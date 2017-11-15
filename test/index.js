@@ -1,17 +1,7 @@
-import func from "../index";
-
+import setUpWorker from "../index";
 
 function workerCompatible(){
     return !!window.Worker;
-}
-
-function setUpWorker(workerFileName, data) {
-    const worker = new Worker(workerFileName);
-    worker.postMessage(data);
-    worker.addEventListener("message", (e)=>{
-        console.log(e.data);
-    });
-    return worker;
 }
 
 function randomWordsArray(){
