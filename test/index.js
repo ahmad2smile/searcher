@@ -1,5 +1,4 @@
-import setUpWorker from "../index";
-
+import dataSearcher from "data-searcher";
 
 //just to create random data to search through
 function randomWordsArray(){
@@ -17,4 +16,4 @@ console.log("Orignal Data", dataToSearchFrom);
 //just to create random data to search through
 
 //using worker: pass array as data and query to search as param
-setUpWorker({ data: dataToSearchFrom, param: "x" });
+dataSearcher({ data: dataToSearchFrom, param: "x" });

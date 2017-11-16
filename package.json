@@ -15,7 +15,7 @@
         "babel-preset-env": "^1.6.1",
         "webpack": "^3.8.1"
     },
-    "bin":{
+    "bin": {
         "data-searcher": "index.js"
     },
     "repository": {
@@ -27,5 +27,8 @@
         "filter",
         "array-filter",
         "web-worker"
-    ]
+    ],
+    "dependencies": {
+        "data-searcher": "^0.0.1"
+    }
 }
