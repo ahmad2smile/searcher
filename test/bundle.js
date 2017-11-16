@@ -68,7 +68,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(3);
+module.exports = __webpack_require__(4);
 
 
 /***/ }),
@@ -84,10 +84,6 @@ var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function workerCompatible() {
-    return !!window.Worker;
-}
-
 function randomWordsArray() {
     var alphabets = "qwertyuioplkjhgfdsazxcvbnm";
 
@@ -101,7 +97,7 @@ var dataToSearchFrom = randomWordsArray();
 
 console.log("Orignal Data", dataToSearchFrom);
 
-(0, _index2.default)("../worker.js", { data: dataToSearchFrom, param: "x" });
+(0, _index2.default)({ data: dataToSearchFrom, param: "x" });
 
 /***/ }),
 /* 2 */
@@ -114,8 +110,15 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = setUpWorker;
-function setUpWorker(workerFileName, data) {
-    var worker = new Worker(workerFileName);
+
+var _worker = __webpack_require__(3);
+
+var _worker2 = _interopRequireDefault(_worker);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function setUpWorker(data) {
+    var worker = new Worker(URL.createObjectURL(new Blob(["onmessage = " + _worker2.default.toString()])));
     worker.postMessage(data);
     worker.addEventListener("message", function (e) {
         console.log(e.data);
@@ -124,16 +127,49 @@ function setUpWorker(workerFileName, data) {
 }
 
 //usage
-//setUpWorker("../worker.js", { data: dataToSearchFrom, param: "x" });
+//setUpWorker({ data: dataToSearchFrom, param: "x" });
 
 /***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = workerFunction;
+function workerFunction(e) {
+    function searcher(dataArray, searchParam) {
+        for (var _len = arguments.length, searchProps = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+            searchProps[_key - 2] = arguments[_key];
+        }
+
+        if (!searchProps.length) {
+            return dataArray.length ? dataArray.filter(function (data) {
+                return data.toUpperCase().includes(searchParam.toUpperCase());
+            }) : dataArray;
+        }
+        return dataArray.length && searchParam.length ? dataArray.filter(function (data) {
+            return searchProps.some(function (searchProp) {
+                return data[searchProp].toUpperCase().includes(searchParam.toUpperCase());
+            });
+        }) : dataArray;
+    }
+
+    var result = searcher(e.data.data, e.data.param);
+    postMessage(result);
+}
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
-var path = __webpack_require__(4);
+var path = __webpack_require__(5);
 
 module.exports = {
     entry: "./test/index.js",
@@ -148,7 +184,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -376,10 +412,10 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser

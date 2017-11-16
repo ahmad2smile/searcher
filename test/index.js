@@ -1,9 +1,5 @@
 import setUpWorker from "../index";
 
-function workerCompatible(){
-    return !!window.Worker;
-}
-
 function randomWordsArray(){
     const alphabets = "qwertyuioplkjhgfdsazxcvbnm";
     
@@ -17,4 +13,4 @@ const dataToSearchFrom = randomWordsArray();
 
 console.log("Orignal Data", dataToSearchFrom);
 
-setUpWorker("../worker.js", { data: dataToSearchFrom, param: "x" });
+setUpWorker({ data: dataToSearchFrom, param: "x" });

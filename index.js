@@ -1,11 +1,13 @@
-export default function setUpWorker(workerFileName, data) {
-    const worker = new Worker(workerFileName);
+import workerFunction from "./worker";
+
+export default function setUpWorker(data) {
+    const worker = new Worker(URL.createObjectURL(new Blob(["onmessage = " + workerFunction.toString()])));
     worker.postMessage(data);
-    worker.addEventListener("message", (e)=>{
+    worker.addEventListener("message", (e) => {
         console.log(e.data);
     });
     return worker;
 }
 
 //usage
-//setUpWorker("../worker.js", { data: dataToSearchFrom, param: "x" });
+//setUpWorker({ data: dataToSearchFrom, param: "x" });
