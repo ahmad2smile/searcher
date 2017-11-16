@@ -8,6 +8,6 @@ Searcher is a simple library search a string in an Array of strings or Array of 
   - Will run on a seprate thread than Website (Magic of Web Workers)
 
 ####    Usage:
-    
-    setUpWorker("../worker.js", { data: dataToSearchFrom, param: "x" });
+    import setUpWorker from "../index";
+    setUpWorker({ data: dataToSearchFrom, param: "x" });
 

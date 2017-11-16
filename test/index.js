@@ -1,5 +1,7 @@
 import setUpWorker from "../index";
 
+
+//just to create random data to search through
 function randomWordsArray(){
     const alphabets = "qwertyuioplkjhgfdsazxcvbnm";
     
@@ -12,5 +14,7 @@ function randomWordsArray(){
 const dataToSearchFrom = randomWordsArray();
 
 console.log("Orignal Data", dataToSearchFrom);
+//just to create random data to search through
 
+//using worker: pass array as data and query to search as param
 setUpWorker({ data: dataToSearchFrom, param: "x" });

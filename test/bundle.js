@@ -84,6 +84,7 @@ var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+//just to create random data to search through
 function randomWordsArray() {
     var alphabets = "qwertyuioplkjhgfdsazxcvbnm";
 
@@ -96,7 +97,9 @@ function randomWordsArray() {
 var dataToSearchFrom = randomWordsArray();
 
 console.log("Orignal Data", dataToSearchFrom);
+//just to create random data to search through
 
+//using worker: pass array as data and query to search as param
 (0, _index2.default)({ data: dataToSearchFrom, param: "x" });
 
 /***/ }),
