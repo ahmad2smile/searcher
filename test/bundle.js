@@ -100,7 +100,7 @@ console.log("Orignal Data", dataToSearchFrom);
 //just to create random data to search through
 
 //using worker: pass array as data and query to search as param
-var result = (0, _index2.default)({ data: dataToSearchFrom, param: "x" });
+var result = (0, _index2.default)({ dataArray: dataToSearchFrom, searchParam: "x" });
 
 result.then(console.log);
 
@@ -116,10 +116,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-function searcher(data) {
+function searcher(inputData) {
 	if (window && window.Worker) {
 		const worker = new Worker(URL.createObjectURL(new Blob(["onmessage = " + __WEBPACK_IMPORTED_MODULE_0__worker__["a" /* default */].toString()])));
-		worker.postMessage(data);
+		worker.postMessage(inputData);
 
 		return new Promise(resolve => {
 			worker.addEventListener("message", ({ data }) => {
@@ -131,14 +131,11 @@ function searcher(data) {
 	}
 
 	try {
-		return Promise.resolve(Object(__WEBPACK_IMPORTED_MODULE_1__filterModule__["a" /* default */])(data.data, data.param));
+		return Promise.resolve(Object(__WEBPACK_IMPORTED_MODULE_1__filterModule__["a" /* default */])(inputData.dataArray, inputData.searchParam, ...(inputData.searchProps || "")));
 	} catch (e) {
 		return Promise.reject(e);
 	}
 }
-
-//usage
-//setUpWorker({ data: dataToSearchFrom, param: "x" });
 
 /***/ }),
 /* 3 */
@@ -148,13 +145,14 @@ function searcher(data) {
 /* harmony export (immutable) */ __webpack_exports__["a"] = workerFunction;
 function workerFunction(e) {
 	function searcher(dataArray, searchParam, ...searchProps) {
-		if (!searchProps.length) {
-			return dataArray.length ? dataArray.filter(data => data.toUpperCase().includes(searchParam.toUpperCase())) : dataArray;
-		}
-		return dataArray.length && searchParam.length ? dataArray.filter(data => searchProps.some(searchProp => data[searchProp].toUpperCase().includes(searchParam.toUpperCase()))) : dataArray;
-	}
+		searchParam = searchParam.toUpperCase();
 
-	const result = searcher(e.data.data, e.data.param);
+		if (!searchProps.length) {
+			return dataArray.length ? dataArray.filter(data => data.toUpperCase().includes(searchParam)) : dataArray;
+		}
+		return dataArray.length && searchParam.length ? dataArray.filter(data => searchProps.some(searchProp => data[searchProp] && data[searchProp].toUpperCase().includes(searchParam))) : dataArray;
+	}
+	const result = searcher(e.data.dataArray, e.data.searchParam, ...(e.data.searchProps = ""));
 	postMessage(result);
 }
 
@@ -168,7 +166,7 @@ function searcher(dataArray, searchParam, ...searchProps) {
 	if (!searchProps.length) {
 		return dataArray.length ? dataArray.filter(data => data.toUpperCase().includes(searchParam.toUpperCase())) : dataArray;
 	}
-	return dataArray.length && searchParam.length ? dataArray.filter(data => searchProps.some(searchProp => data[searchProp].toUpperCase().includes(searchParam.toUpperCase()))) : dataArray;
+	return dataArray.length && searchParam.length ? dataArray.filter(data => searchProps.some(searchProp => data[searchProp] && data[searchProp].toUpperCase().includes(searchParam.toUpperCase()))) : dataArray;
 }
 
 /***/ }),

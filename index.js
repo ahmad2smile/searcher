@@ -1,12 +1,12 @@
 import workerFunction from "./worker"
 import filterer from "./filterModule"
 
-export default function searcher(data) {
+export default function searcher(inputData) {
 	if (window && window.Worker) {
 		const worker = new Worker(
 			URL.createObjectURL(new Blob(["onmessage = " + workerFunction.toString()]))
 		)
-		worker.postMessage(data)
+		worker.postMessage(inputData)
 
 		return new Promise(
 			resolve => {
@@ -22,11 +22,10 @@ export default function searcher(data) {
 	}
 
 	try {
-		return Promise.resolve(filterer(data.data, data.param))
+		return Promise.resolve(
+			filterer(inputData.dataArray, inputData.searchParam, ...(inputData.searchProps || ""))
+		)
 	} catch (e) {
 		return Promise.reject(e)
 	}
 }
-
-//usage
-//setUpWorker({ data: dataToSearchFrom, param: "x" });

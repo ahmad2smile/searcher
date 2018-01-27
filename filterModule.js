@@ -6,8 +6,10 @@ export default function searcher(dataArray, searchParam, ...searchProps) {
 	}
 	return dataArray.length && searchParam.length
 		? dataArray.filter(data =>
-				searchProps.some(searchProp =>
-					data[searchProp].toUpperCase().includes(searchParam.toUpperCase())
+				searchProps.some(
+					searchProp =>
+						data[searchProp] &&
+						data[searchProp].toUpperCase().includes(searchParam.toUpperCase())
 				)
 			)
 		: dataArray
