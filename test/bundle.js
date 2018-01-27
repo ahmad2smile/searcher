@@ -100,7 +100,7 @@ console.log("Orignal Data", dataToSearchFrom);
 //just to create random data to search through
 
 //using worker: pass array as data and query to search as param
-var result = (0, _index2.default)({ dataArray: dataToSearchFrom, searchParam: "x" });
+var result = (0, _index2.default)(dataToSearchFrom, "x");
 
 result.then(console.log);
 
@@ -116,7 +116,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-function searcher(inputData) {
+function searcher(dataArray, searchParam, searchProps) {
+	const inputData = { dataArray, searchParam, searchProps };
+
 	if (window && window.Worker) {
 		const worker = new Worker(URL.createObjectURL(new Blob(["onmessage = " + __WEBPACK_IMPORTED_MODULE_0__worker__["a" /* default */].toString()])));
 		worker.postMessage(inputData);
@@ -131,7 +133,7 @@ function searcher(inputData) {
 	}
 
 	try {
-		return Promise.resolve(Object(__WEBPACK_IMPORTED_MODULE_1__filterModule__["a" /* default */])(inputData.dataArray, inputData.searchParam, ...(inputData.searchProps || "")));
+		return Promise.resolve(Object(__WEBPACK_IMPORTED_MODULE_1__filterModule__["a" /* default */])(dataArray, searchParam, ...(searchProps || "")));
 	} catch (e) {
 		return Promise.reject(e);
 	}

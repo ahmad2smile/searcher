@@ -16,6 +16,6 @@ console.log("Orignal Data", dataToSearchFrom)
 //just to create random data to search through
 
 //using worker: pass array as data and query to search as param
-const result = dataSearcher({ dataArray: dataToSearchFrom, searchParam: "x" })
+const result = dataSearcher(dataToSearchFrom, "x")
 
 result.then(console.log)

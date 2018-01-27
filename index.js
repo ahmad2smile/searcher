@@ -1,7 +1,9 @@
 import workerFunction from "./worker"
 import filterer from "./filterModule"
 
-export default function searcher(inputData) {
+export default function searcher(dataArray, searchParam, searchProps) {
+	const inputData = { dataArray, searchParam, searchProps }
+
 	if (window && window.Worker) {
 		const worker = new Worker(
 			URL.createObjectURL(new Blob(["onmessage = " + workerFunction.toString()]))
@@ -22,9 +24,7 @@ export default function searcher(inputData) {
 	}
 
 	try {
-		return Promise.resolve(
-			filterer(inputData.dataArray, inputData.searchParam, ...(inputData.searchProps || ""))
-		)
+		return Promise.resolve(filterer(dataArray, searchParam, ...(searchProps || "")))
 	} catch (e) {
 		return Promise.reject(e)
 	}

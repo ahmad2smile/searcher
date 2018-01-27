@@ -2,12 +2,12 @@
 
 Searcher is a simple library search a string in an Array of strings or Array of Objects with specific properties as string.
 
-#####   Why?
+##### Why?
 
-  - Can handle **huge** sized Array
-  - Will run on a seprate thread than Website (Magic of Web Workers)
+* Can handle **large** Array
+* Will run on a separate thread than Website (Magic of Web Workers)
 
-####    Usage:
-    import setUpWorker from "../index";
-    setUpWorker({ data: dataToSearchFrom, param: "x" });
+#### Usage:
 
+    import setUpWorker from "data-searcher";
+    setUpWorker(dataToSearchFrom, "x");
