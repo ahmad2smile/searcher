@@ -4,7 +4,7 @@ Searcher is a simple library search a string in an Array of strings or Array of 
 
 ##### Install
 
-    `npm install data-searcher`
+`npm install data-searcher`
 
 ##### Why?
 
