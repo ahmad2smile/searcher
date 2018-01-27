@@ -68,7 +68,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);
-module.exports = __webpack_require__(4);
+module.exports = __webpack_require__(5);
 
 
 /***/ }),
@@ -78,22 +78,20 @@ module.exports = __webpack_require__(4);
 "use strict";
 
 
-var _dataSearcher = __webpack_require__(2);
+var _index = __webpack_require__(2);
 
-var _dataSearcher2 = _interopRequireDefault(_dataSearcher);
+var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-console.log(_dataSearcher2.default);
-
 //just to create random data to search through
 function randomWordsArray() {
-    var alphabets = "qwertyuioplkjhgfdsazxcvbnm";
+	var alphabets = "qwertyuioplkjhgfdsazxcvbnm";
 
-    return Array.from({ length: 20 }, function () {
-        var startIndex = Math.floor(Math.random() * 20);
-        return alphabets.substr(startIndex, 3);
-    });
+	return Array.from({ length: 20 }, function () {
+		var startIndex = Math.floor(Math.random() * 20);
+		return alphabets.substr(startIndex, 3);
+	});
 }
 
 var dataToSearchFrom = randomWordsArray();
@@ -102,7 +100,9 @@ console.log("Orignal Data", dataToSearchFrom);
 //just to create random data to search through
 
 //using worker: pass array as data and query to search as param
-(0, _dataSearcher2.default)({ data: dataToSearchFrom, param: "x" });
+var result = (0, _index2.default)({ data: dataToSearchFrom, param: "x" });
+
+result.then(console.log);
 
 /***/ }),
 /* 2 */
@@ -110,17 +110,31 @@ console.log("Orignal Data", dataToSearchFrom);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (immutable) */ __webpack_exports__["default"] = setUpWorker;
+/* harmony export (immutable) */ __webpack_exports__["default"] = searcher;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__worker__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__filterModule__ = __webpack_require__(4);
 
 
-function setUpWorker(data) {
-    const worker = new Worker(URL.createObjectURL(new Blob(["onmessage = " + __WEBPACK_IMPORTED_MODULE_0__worker__["a" /* default */].toString()])));
-    worker.postMessage(data);
-    worker.addEventListener("message", (e) => {
-        console.log(e.data);
-    });
-    return worker;
+
+function searcher(data) {
+	if (window && window.Worker) {
+		const worker = new Worker(URL.createObjectURL(new Blob(["onmessage = " + __WEBPACK_IMPORTED_MODULE_0__worker__["a" /* default */].toString()])));
+		worker.postMessage(data);
+
+		return new Promise(resolve => {
+			worker.addEventListener("message", ({ data }) => {
+				resolve(data);
+			});
+		}, error => worker.addEventListener("error", e => {
+			error(e);
+		}));
+	}
+
+	try {
+		return Promise.resolve(Object(__WEBPACK_IMPORTED_MODULE_1__filterModule__["a" /* default */])(data.data, data.param));
+	} catch (e) {
+		return Promise.reject(e);
+	}
 }
 
 //usage
@@ -133,29 +147,38 @@ function setUpWorker(data) {
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = workerFunction;
 function workerFunction(e) {
-    function searcher(dataArray, searchParam, ...searchProps) {
-        if (!searchProps.length) {
-            return (dataArray.length)
-                ? dataArray.filter((data) => data.toUpperCase().includes(searchParam.toUpperCase()))
-                : dataArray;
-        }
-        return (dataArray.length && searchParam.length)
-            ? dataArray.filter((data) => searchProps.some((searchProp) => data[searchProp].toUpperCase().includes(searchParam.toUpperCase())))
-            : dataArray;
-    }
+	function searcher(dataArray, searchParam, ...searchProps) {
+		if (!searchProps.length) {
+			return dataArray.length ? dataArray.filter(data => data.toUpperCase().includes(searchParam.toUpperCase())) : dataArray;
+		}
+		return dataArray.length && searchParam.length ? dataArray.filter(data => searchProps.some(searchProp => data[searchProp].toUpperCase().includes(searchParam.toUpperCase()))) : dataArray;
+	}
 
-    const result = searcher(e.data.data, e.data.param);
-    postMessage(result);
+	const result = searcher(e.data.data, e.data.param);
+	postMessage(result);
 }
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = searcher;
+function searcher(dataArray, searchParam, ...searchProps) {
+	if (!searchProps.length) {
+		return dataArray.length ? dataArray.filter(data => data.toUpperCase().includes(searchParam.toUpperCase())) : dataArray;
+	}
+	return dataArray.length && searchParam.length ? dataArray.filter(data => searchProps.some(searchProp => data[searchProp].toUpperCase().includes(searchParam.toUpperCase()))) : dataArray;
+}
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(__dirname) {
 
-var path = __webpack_require__(5);
+var path = __webpack_require__(6);
 
 module.exports = {
     entry: "./index.js",
@@ -170,7 +193,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -398,10 +421,10 @@ var substr = 'ab'.substr(-1) === 'b'
     }
 ;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser

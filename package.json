@@ -1,34 +1,23 @@
 {
-    "main": "index.js",
-    "author": "Shafiq Ahmad <ahmad2smile@gmail.com>",
-    "homepage": "https://github.com/ahmad2smile/searcher.git",
-    "scripts": {
-        "start": "./node_modules/.bin/webpack webpack.config.js --watch"
-    },
-    "name": "data-searcher",
-    "version": "0.0.1",
-    "description": "Filter or Search through an Array with Web Worker Edit Add topics",
-    "license": "MIT",
-    "devDependencies": {
-        "babel-core": "^6.26.0",
-        "babel-loader": "^7.1.2",
-        "babel-preset-env": "^1.6.1",
-        "webpack": "^3.8.1"
-    },
-    "bin": {
-        "data-searcher": "index.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/ahmad2smile/searcher.git"
-    },
-    "keywords": [
-        "data-searcher",
-        "filter",
-        "array-filter",
-        "web-worker"
-    ],
-    "dependencies": {
-        "data-searcher": "^0.0.1"
-    }
+	"main": "index.js",
+	"author": "Shafiq Ahmad <ahmad2smile@gmail.com>",
+	"homepage": "https://github.com/ahmad2smile/searcher.git",
+	"scripts": {
+		"start": "./node_modules/.bin/webpack webpack.config.js --watch"
+	},
+	"name": "data-searcher",
+	"version": "0.0.1",
+	"description": "Filter or Search through an Array with Web Worker Edit Add topics",
+	"license": "MIT",
+	"devDependencies": {
+		"babel-core": "^6.26.0",
+		"babel-loader": "^7.1.2",
+		"babel-preset-env": "^1.6.1",
+		"webpack": "^3.8.1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ahmad2smile/searcher.git"
+	},
+	"keywords": ["data-searcher", "filter", "array-filter", "web-worker"]
 }
