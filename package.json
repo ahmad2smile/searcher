@@ -6,7 +6,7 @@
 		"start": "./node_modules/.bin/webpack webpack.config.js --watch"
 	},
 	"name": "data-searcher",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Filter or Search through an Array with Web Worker Edit Add topics",
 	"license": "MIT",
 	"devDependencies": {
