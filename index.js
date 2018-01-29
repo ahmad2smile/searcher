@@ -1,7 +1,7 @@
 import workerFunction from "./worker"
 import filterer from "./filterModule"
 
-export default function searcher(dataArray, searchParam, searchProps) {
+export default function searcher(dataArray, searchParam, ...searchProps) {
 	const inputData = { dataArray, searchParam, searchProps }
 
 	if (window && window.Worker) {

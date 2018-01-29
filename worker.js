@@ -16,6 +16,6 @@ export default function workerFunction(e) {
 				)
 			: dataArray
 	}
-	const result = searcher(e.data.dataArray, e.data.searchParam, ...(e.data.searchProps = ""))
+	const result = searcher(e.data.dataArray, e.data.searchParam, ...(e.data.searchProps || ""))
 	postMessage(result)
 }

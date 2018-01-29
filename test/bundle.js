@@ -90,7 +90,10 @@ function randomWordsArray() {
 
 	return Array.from({ length: 20 }, function () {
 		var startIndex = Math.floor(Math.random() * 20);
-		return alphabets.substr(startIndex, 3);
+		return {
+			firstname: alphabets.substr(startIndex, 3),
+			lastname: alphabets.substr(startIndex)
+		};
 	});
 }
 
@@ -100,7 +103,7 @@ console.log("Orignal Data", dataToSearchFrom);
 //just to create random data to search through
 
 //using worker: pass array as data and query to search as param
-var result = (0, _index2.default)(dataToSearchFrom, "x");
+var result = (0, _index2.default)(dataToSearchFrom, "yui", "firstname", "lastname");
 
 result.then(console.log);
 
@@ -116,7 +119,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-function searcher(dataArray, searchParam, searchProps) {
+function searcher(dataArray, searchParam, ...searchProps) {
 	const inputData = { dataArray, searchParam, searchProps };
 
 	if (window && window.Worker) {
@@ -154,7 +157,7 @@ function workerFunction(e) {
 		}
 		return dataArray.length && searchParam.length ? dataArray.filter(data => searchProps.some(searchProp => data[searchProp] && data[searchProp].toUpperCase().includes(searchParam))) : dataArray;
 	}
-	const result = searcher(e.data.dataArray, e.data.searchParam, ...(e.data.searchProps = ""));
+	const result = searcher(e.data.dataArray, e.data.searchParam, ...(e.data.searchProps || ""));
 	postMessage(result);
 }
 

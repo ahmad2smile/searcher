@@ -6,7 +6,10 @@ function randomWordsArray() {
 
 	return Array.from({ length: 20 }, () => {
 		const startIndex = Math.floor(Math.random() * 20)
-		return alphabets.substr(startIndex, 3)
+		return {
+			firstname: alphabets.substr(startIndex, 3),
+			lastname: alphabets.substr(startIndex)
+		}
 	})
 }
 
@@ -16,6 +19,6 @@ console.log("Orignal Data", dataToSearchFrom)
 //just to create random data to search through
 
 //using worker: pass array as data and query to search as param
-const result = dataSearcher(dataToSearchFrom, "x")
+const result = dataSearcher(dataToSearchFrom, "yui", "firstname", "lastname")
 
 result.then(console.log)
