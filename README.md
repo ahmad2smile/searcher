@@ -26,3 +26,8 @@ For Array of Objects search, Like if you wanna search record with character "x" 
     const dataToSearchFrom = [{ name: "Xavier", job: "x-man" }]
 
     dataSearcher(dataToSearchFrom, "x", "name", "job");
+
+
+#### TODO:
+
+Add support for multiple levels of Object in an Array
